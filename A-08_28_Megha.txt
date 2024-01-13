@@ -1,0 +1,89 @@
+NAME : Megha
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : A8
+ASSIGNMENT TITLE : Database Trigger (All Types: Row level and Statement level
+triggers, Before and After
+Triggers).
+
+
+
+create table library_table (roll_no int ,name varchar(50), date_of_issue date ,name_of_book
+varchar(50) ,status varchar(10))
+Table created.
+create table audit_table (roll_no int ,name varchar(50), date_of_issue date ,name_of_book
+varchar(50) ,status varchar(10), operation varchar(10));
+Table created.
+insert into library_table values (01 , 'samruddhi' , '06-jul-2023' , 'DBMS' , 'Issued')
+1 row(s) inserted.
+insert into library_table values (08 , 'megha' , '11-aug-2023' , 'IOT' , 'Issued')
+1 row(s) inserted.
+insert into library_table values (05 , 'mugdha' , '07-jan-2023' , 'TOC' , 'Issued')
+1 row(s) inserted.
+insert into library_table values (03 , 'shreya' , '19-mar-2023' , 'SPOS' , 'Issued')
+1 row(s) inserted.
+insert into library_table values (10 , 'rashmi' , '01-feb-2023' , 'CNS' , 'Issued')
+1 row(s) inserted.
+
+
+select *from library_table;
+
+ROLL_NO	  NAME	        DATE_OF_ISSUE	  NAME_OF_BOOK	 STATUS
+1	  samruddhi	06-JUL-23	  DBMS		 Issued
+8	  megha	        11-AUG-23	  IOT		 Issued
+5	  mugdha	07-JAN-23	  TOC		 Issued
+3	  shreya	19-MAR-23	  SPOS		 Issued
+10	  rashmi	01-FEB-23	  CNS		 Issued
+
+
+CREATE OR REPLACE TRIGGER after_row_level
+AFTER UPDATE OR DELETE
+ON library_table
+FOR EACH ROW
+BEGIN
+IF updating THEN
+INSERT INTO audit_table VALUES(:old.roll_no, :old.name, :old.date_of_issue,
+:old.name_of_book, :old.status, 'update');
+ELSIF deleting THEN
+INSERT INTO audit_table VALUES(:old.roll_no, :old.name, :old.date_of_issue,
+:old.name_of_book, :old.status, 'delete');
+END IF;
+END;
+/
+Trigger created.
+
+
+update library_table set name_of_book='DBMS' where roll_no=10
+1 row(s) updated.
+
+select *from library_table;
+ROLL_NO	  NAME	        DATE_OF_ISSUE	  NAME_OF_BOOK	 STATUS
+1	  samruddhi	06-JUL-23	  DBMS		 Issued
+8	  megha	        11-AUG-23	  IOT		 Issued
+5	  mugdha	07-JAN-23	  TOC		 Issued
+3	  shreya	19-MAR-23	  SPOS		 Issued
+10	  rashmi	01-FEB-23	  DBMS		 Issued
+
+
+select *from audit_table;
+ROLL_NO	  NAME	        DATE_OF_ISSUE	  NAME_OF_BOOK	  STATUS	OPERATION
+10	  rashmi	01-FEB-23	  CNS	          Issued	update
+
+
+delete from library_table where roll_no=03
+1 row(s) deleted.
+
+
+select *from library_table;
+ROLL_NO	  NAME	        DATE_OF_ISSUE	  NAME_OF_BOOK	 STATUS
+1	  samruddhi	06-JUL-23	  DBMS		 Issued
+8	  megha	        11-AUG-23	  IOT		 Issued
+5	  mugdha	07-JAN-23	  TOC		 Issued
+10	  rashmi	01-FEB-23	  DBMS		 Issued
+
+
+select *from library_audit_table;
+ROLL_NO	  NAME	        DATE_OF_ISSUE	  NAME_OF_BOOK	  STATUS	OPERATION
+10	  rashmi	01-FEB-23	  CNS	          Issued	update
+3	  shreya	19-MAR-23	  SPOS	          Issued	delete

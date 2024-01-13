@@ -1,0 +1,197 @@
+NAME : MEGHA
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : B4
+ASSIGNMENT TITLE :Database Connectivity
+Write a program to implement MongoDB database connectivity with any front end
+language to implement Database navigation operations (add, delete, edit etc.)
+
+*********************************************************************************
+
+import pymongo
+# Create a MongoDB client
+client = pymongo.MongoClient("mongodb://localhost:27017/")
+# Create or select a database
+db = client["db1"]
+# Create a collection
+collection = db["students"]
+# Add a document based on user input
+def add_document():
+name = input("Enter name: ")
+age = int(input("Enter age: "))
+city = input("Enter city: ")
+roll_no = int(input("Enter Roll No: "))
+student = {
+"name": name,
+"age": age,
+"city": city,
+"roll_no": roll_no
+}
+collection.insert_one(student)
+# List all documents
+def list_documents():
+for doc in collection.find():
+print(doc)
+# Update a document by roll_no
+def update_document():
+roll_no = int(input("Enter Roll No to update: "))
+new_name = input("Enter new name: ")
+
+new_age = int(input("Enter new age: "))
+new_city = input("Enter new city: ")
+filter = {"roll_no": roll_no}
+new_values = {"$set": {
+"name": new_name,
+"age": new_age,
+"city": new_city
+}}
+collection.update_one(filter, new_values)
+# Delete a document by roll_no
+def delete_document():
+roll_no = int(input("Enter Roll No to delete: "))
+filter = {"roll_no": roll_no}
+collection.delete_one(filter)
+
+while True:
+print("Options:")
+print("1. Add Document")
+print("2. List Documents")
+print("3. Update Document")
+print("4. Delete Document")
+print("5. Quit")
+choice = input("Enter your choice (1/2/3/4/5): ")
+if choice == "1":
+add_document()
+elif choice == "2":
+list_documents()
+elif choice == "3":
+update_document()
+elif choice == "4":
+delete_document()
+elif choice == "5":
+break
+else:
+print("Invalid choice. Please enter a valid option.")
+# Close the MongoDB connection
+client.close()
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+PS C:\Users\Data Care Services> python db1.py
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 1
+Enter name: A
+Enter age: 20
+Enter city: Pune
+Enter Roll No: 01
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 1
+Enter name: B
+Enter age: 20
+Enter city: Pune
+Enter Roll No: 02
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 1
+Enter name: C
+Enter age: 20
+Enter city: Pune
+Enter Roll No: 03
+Options:
+1. Add Document
+2. List Documents
+
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 1
+Enter name: D
+Enter age: 20
+Enter city: Pune
+Enter Roll No: 04
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 2
+{'_id': ObjectId('65434dea30881371a935fa3f'), 'name': 'A', 'age': 20, 'city': 'Pune',
+'roll_no': 01}
+{'_id': ObjectId('65434df730881371a935fa40'), 'name': 'B', 'age': 20, 'city': 'Pune',
+'roll_no': 02}
+{'_id': ObjectId('65434e0530881371a935fa41'), 'name': 'C', 'age': 20, 'city': 'Pune', 'roll_no':
+03}
+{'_id': ObjectId('65434e1330881371a935fa42'), 'name': 'D', 'age': 20, 'city': 'Pune', 'roll_no':
+04}
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 3
+Enter Roll No to update: 03
+Enter new name: E
+Enter new age: 22
+Enter new city: Delhi
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 2
+{'_id': ObjectId('65434dea30881371a935fa3f'), 'name': 'A', 'age': 20, 'city': 'Pune',
+'roll_no': 01}
+
+{'_id': ObjectId('65434df730881371a935fa40'), 'name': 'B', 'age': 20, 'city': 'Pune',
+'roll_no': 02}
+{'_id': ObjectId('65434e0530881371a935fa41'), 'name': 'E', 'age': 22, 'city': 'Delhi', 'roll_no':
+03}
+{'_id': ObjectId('65434e1330881371a935fa42'), 'name': 'D', 'age': 20, 'city': 'Pune', 'roll_no':
+04}
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 4
+Enter Roll No to delete: 04
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5): 2
+{'_id': ObjectId('65434dea30881371a935fa3f'), 'name': 'A', 'age': 20, 'city': 'Pune',
+'roll_no': 01}
+{'_id': ObjectId('65434df730881371a935fa40'), 'name': 'B', 'age': 20, 'city': 'Pune',
+'roll_no': 02}
+{'_id': ObjectId('65434e0530881371a935fa41'), 'name': 'E', 'age': 22, 'city': 'Delhi', 'roll_no':
+03}
+Options:
+1. Add Document
+2. List Documents
+3. Update Document
+4. Delete Document
+5. Quit
+Enter your choice (1/2/3/4/5):

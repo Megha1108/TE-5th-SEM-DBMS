@@ -1,0 +1,510 @@
+Name: Megha
+Batch: Q
+Roll No: 28
+PRN No: F21113029
+Assignment No: A3
+
+Assignment Title:
+Write at least10 SQL queries for suitable database application using SQL DML statements.
+Note: Instructor will design the queries which demonstrate the use of concepts like all types of Join, Sub-Query and View
+
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.34 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2023, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| a2                 |
+| bank               |
+| csproject          |
+| dbms_college       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| school             |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.01 sec)
+
+mysql> use a2;
+Database changed
+mysql> show tables;
++--------------+
+| Tables_in_a2 |
++--------------+
+| account      |
+| borrower     |
+| branch       |
+| customer     |
+| depositor    |
+| loan         |
++--------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from account;
++--------+-------------+---------+
+| acc_no | branch_name | balance |
++--------+-------------+---------+
+|   1001 | vimannagar  |    1500 |
+|   1002 | alandi      |    1000 |
+|   1003 | vimannagar  |    1000 |
+|   1004 | kharadi     |    2000 |
+|   1005 | nigdi       |    1200 |
+|   1006 | akurdi      |    1750 |
+|   1007 | akurdi      |    2000 |
+|   1008 | akurdi      |     800 |
+|   1009 | nigdi       |    2500 |
+|   1010 | kharadi     |     900 |
++--------+-------------+---------+
+10 rows in set (0.04 sec)
+
+mysql> select * from borrower;
++-----------+---------+
+| cust_name | loan_no |
++-----------+---------+
+| ishan     | 1       |
+| megha     | 5       |
+| mugdha    | 2       |
+| shreya    | 3       |
+| vivek     | 4       |
+| rashmi    | 6       |
+| samrudhhi | 7       |
+| sumit     | 8       |
+| sania     | 9       |
+| simran    | 10      |
++-----------+---------+
+10 rows in set (0.01 sec)
+
+mysql> select * from branch;
++-------------+-------------+--------+
+| branch_name | branch_city | assets |
++-------------+-------------+--------+
+| akurdi      | pune        | 100000 |
+| alandi      | pune        | 150000 |
+| kharadi     | pune        | 200000 |
+| nigdi       | pune        | 250000 |
+| vimannagar  | pune        | 250000 |
++-------------+-------------+--------+
+5 rows in set (0.01 sec)
+
+mysql> select * from customer;
++-----------+-------------+------------+
+| cust_name | cust_street | cust_city  |
++-----------+-------------+------------+
+| ishan     | street-02   | kolkata    |
+| megha     | street-02   | pune       |
+| mugdha    | street-22   | pune       |
+| rashmi    | street-11   | pune       |
+| samrudhhi | street-05   | ahmednagar |
+| sania     | street-11   | pune       |
+| shreya    | street-08   | delhi      |
+| simran    | street-31   | delhi      |
+| sumit     | street-31   | delhi      |
+| vivek     | street-02   | delhi      |
++-----------+-------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> select * from depositor;
++-----------+--------+
+| cust_name | acc_no |
++-----------+--------+
+| megha     |   1001 |
+| mugdha    |   1003 |
+| rashmi    |   1002 |
+| sania     |   1004 |
+| samrudhhi |   1006 |
+| vivek     |   1005 |
+| sumit     |   1007 |
+| shreya    |   1008 |
+| simran    |   1009 |
+| ishan     |   1010 |
++-----------+--------+
+10 rows in set (0.00 sec)
+
+mysql> select * from loan;
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| 1       | vimannagar  |    100 |
+| 10      | vimannagar  |    500 |
+| 2       | vimannagar  |    500 |
+| 3       | nigdi       |    150 |
+| 4       | akurdi      |    150 |
+| 5       | akurdi      |    200 |
+| 6       | kharadi     |    100 |
+| 7       | alandi      |    250 |
+| 8       | alandi      |    300 |
+| 9       | alandi      |    500 |
++---------+-------------+--------+
+10 rows in set (0.01 sec)
+
+mysql> select branch_name from loan;
++-------------+
+| branch_name |
++-------------+
+| akurdi      |
+| akurdi      |
+| alandi      |
+| alandi      |
+| alandi      |
+| kharadi     |
+| nigdi       |
+| vimannagar  |
+| vimannagar  |
+| vimannagar  |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> create table orders(comp_id varchar(10), domain varchar(10), quantity int(10));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> insert into companies values('C001','ONGC',2000,2010);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into companies values('C002','HPCL',2500,2012);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into companies values('C005','IOCL',1000,2014);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into companies values('C006','BHEL',3000,2015);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from companies;
++---------+------+------+------+
+| comp_id | name | cost | year |
++---------+------+------+------+
+| C001    | ONGC | 2000 | 2010 |
+| C002    | HPCL | 2500 | 2012 |
+| C005    | IOCL | 1000 | 2014 |
+| C006    | BHEL | 3000 | 2015 |
++---------+------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> insert into orders values('C001','oil',109);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders values('C002','gas',121);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into orders values('C005','telecom',115);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from orders;
++---------+---------+----------+
+| comp_id | domain  | quantity |
++---------+---------+----------+
+| C001    | oil     |      109 |
+| C002    | gas     |      121 |
+| C005    | telecom |      115 |
++---------+---------+----------+
+3 rows in set (0.00 sec)
+
+
+
+Q1. Create a View1 to display List all customers in alphabetical order who have loan from 
+Vimannagar branch
+mysql> create view view_1 as select cust_name from borrower join loan on loan.loan_no=borrower.loan_no where branch_name='vimannagar' order by cust_name asc;
+Query OK, 0 rows affected (0.01 sec)
+
+
+Q2. Create View2 on branch table by selecting any two columns and perform insert
+update delete operations.
+mysql> create view view_2 as select branch_name, branch_city from branch;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into view_2 values("palam","delhi");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into view_2 values("mg road","pune");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> update view_2 set branch_city="delhi" where branch_name="mg road";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from view_2 where branch_name='mg road';
+Query OK, 1 row affected (0.01 sec)
+
+
+Q3. Create View3 on borrower and depositor table by selecting any one column from each 
+table perform insert update delete operations.
+mysql> create view view_3 as select loan_no,acc_no from depositor, borrower where depositor.cust_name=borrower.cust_name;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from view_3 order by loan_no;
++---------+--------+
+| loan_no | acc_no |
++---------+--------+
+| 1       |   1010 |
+| 10      |   1009 |
+| 2       |   1003 |
+| 3       |   1008 |
+| 4       |   1005 |
+| 5       |   1001 |
+| 6       |   1002 |
+| 7       |   1006 |
+| 8       |   1007 |
+| 9       |   1004 |
++---------+--------+
+
+
+Q4. Create Union of left and right joint for all customers who have an account or loan or 
+both at bank
+mysql> select c.cust_name,
+    -> a.acc_no, a.balance,
+    -> b.cust_name, b.loan_no,
+    -> l.loan_no
+    -> from customer c
+    -> left join depositor d on c.cust_name = d.cust_name
+    -> left join account a on d.acc_no = a.acc_no
+    -> left join borrower b on c.cust_name = b.cust_name
+    -> left join loan l on b.loan_no = l.loan_no
+    -> where a.acc_no is not null or l.loan_no is not null;
+Empty set (0.05 sec)
+
+
+
+Q5. Display content of View1,View2,View3
+mysql> select * from view_1;
++-----------+
+| cust_name |
++-----------+
+| ishan     |
+| mugdha    |
+| simran    |
++-----------+
+3 rows in set (0.01 sec)
+
+mysql> select * from view_2;
++-------------+-------------+
+| branch_name | branch_city |
++-------------+-------------+
+| akurdi      | pune        |
+| alandi      | pune        |
+| kharadi     | pune        |
+| nigdi       | pune        |
+| palam       | delhi       |
+| vimannagar  | pune        |
++-------------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from view_3;
++---------+--------+
+| loan_no | acc_no |
++---------+--------+
+| 5       |   1001 |
+| 2       |   1003 |
+| 6       |   1002 |
+| 9       |   1004 |
+| 7       |   1006 |
+| 4       |   1005 |
+| 8       |   1007 |
+| 3       |   1008 |
+| 10      |   1009 |
+| 1       |   1010 |
++---------+--------+
+10 rows in set (0.00 sec)
+
+
+Q6. Create Simple and Unique index.
+mysql> create unique index index_1 on customer(cust_name);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index index_2 on account(acc_no);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+Q7. Display index Information
+mysql> show index from account;
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table   | Non_unique | Key_name    | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| account |          0 | PRIMARY     |            1 | acc_no      | A         |           8 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| account |          1 | branch_name |            1 | branch_name | A         |           5 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| account |          1 | index_2     |            1 | acc_no      | A         |           8 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++---------+------------+-------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.02 sec)
+
+mysql> show index from customer;
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table    | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| customer |          0 | PRIMARY  |            1 | cust_name   | A         |           8 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| customer |          0 | index_1  |            1 | cust_name   | A         |           8 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++----------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+2 rows in set (0.01 sec)
+
+
+
+Q8. Truncate table Customer.
+
+mysql> show create table borrower;
++----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table    | Create Table
+
+                                                                                     |
++----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| borrower | CREATE TABLE `borrower` (
+  `cust_name` varchar(10) DEFAULT NULL,
+  `loan_no` varchar(10) DEFAULT NULL,
+  KEY `cust_name` (`cust_name`),
+  KEY `loan_no` (`loan_no`),
+  CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`cust_name`) REFERENCES `customer` (`cust_name`),
+  CONSTRAINT `borrower_ibfk_2` FOREIGN KEY (`loan_no`) REFERENCES `loan` (`loan_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci |
++----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+mysql> alter table borrower drop foreign key borrower_ibfk_1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> truncate table customer;
+Query OK, 0 rows affected (0.04 sec)
+
+
+*******************************************************************
+
+mysql> select * from companies;
++---------+------+------+------+
+| comp_id | name | cost | year |
++---------+------+------+------+
+| C001    | ONGC | 2000 | 2010 |
+| C002    | HPCL | 2500 | 2012 |
+| C005    | IOCL | 1000 | 2014 |
+| C006    | BHEL | 3000 | 2015 |
++---------+------+------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++---------+---------+----------+
+| comp_id | domain  | quantity |
++---------+---------+----------+
+| C001    | oil     |      109 |
+| C002    | gas     |      121 |
+| C005    | telecom |      115 |
++---------+---------+----------+
+3 rows in set (0.00 sec)
+
+
+
+Q1. Find names, costs, domains and quantities for companies using inner join.
+
+mysql> select name, cost, domain, quantity from companies inner join orders on orders.comp_id=companies.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | oil     |      109 |
+| HPCL | 2500 | gas     |      121 |
+| IOCL | 1000 | telecom |      115 |
++------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+Q2. Find names, costs, domains and quantities for companies using left outer join
+
+mysql> select name, cost, domain, quantity from companies left join orders on orders.comp_id=companies.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | oil     |      109 |
+| HPCL | 2500 | gas     |      121 |
+| IOCL | 1000 | telecom |      115 |
+| BHEL | 3000 | NULL    |     NULL |
++------+------+---------+----------+
+4 rows in set (0.00 sec)
+
+Q3. Find names, costs, domains and quantities for companies using right outer join
+
+mysql> select name, cost, domain, quantity from companies right join orders on orders.comp_id=companies.comp_id;
++------+------+---------+----------+
+| name | cost | domain  | quantity |
++------+------+---------+----------+
+| ONGC | 2000 | oil     |      109 |
+| HPCL | 2500 | gas     |      121 |
+| IOCL | 1000 | telecom |      115 |
++------+------+---------+----------+
+3 rows in set (0.00 sec)
+
+Q4. Find names, costs, domains and quantities for companies using Union operator.
+
+mysql> select name, cost from companies join orders on orders.comp_id=companies.comp_id
+    -> union
+    -> select domain, quantity from orders join companies on orders.comp_id=companies.comp_id;
++---------+------+
+| name    | cost |
++---------+------+
+| ONGC    | 2000 |
+| HPCL    | 2500 |
+| IOCL    | 1000 |
+| oil     |  109 |
+| gas     |  121 |
+| telecom |  115 |
++---------+------+
+6 rows in set (0.00 sec)
+
+Q5.Create View View1 by selecting both tables to show company name and quantities
+
+mysql> create view view1 as select name, quantity from companies, orders where companies.comp_id=orders.comp_id;
+Query OK, 0 rows affected (0.01 sec)
+
+Q6. Create View2 on branch table by selecting any two columns and perform insert 
+update delete operations
+
+mysql> create view view2 as select branch_name, branch_city from branch;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into view2 values("dwarka","delhi");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into view2 values("mg road","pune");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> update view2 set branch_city="delhi" where branch_name="mg road";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from view_2 where branch_name='mg road';
+Query OK, 1 row affected (0.01 sec)
+
+
+Q7. Display content of View1, View2.
+
+mysql> select * from view1;
++------+----------+
+| name | quantity |
++------+----------+
+| ONGC |      109 |
+| HPCL |      121 |
+| IOCL |      115 |
++------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from view2;
++-------------+-------------+
+| branch_name | branch_city |
++-------------+-------------+
+| akurdi      | pune        |
+| alandi      | pune        |
+| dwarka      | delhi       |
+| kharadi     | pune        |
+| nigdi       | pune        |
+| palam       | delhi       |
+| vimannagar  | pune        |
++-------------+-------------+
+7 rows in set (0.00 sec)

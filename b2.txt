@@ -1,0 +1,491 @@
+C:\Users\MEGHA>mongosh
+Current Mongosh Log ID: 6531f12283e44417cbefe147
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-10-19T22:32:39.432+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+
+test> use mydb
+switched to db mydb
+
+mydb> db
+mydb
+
+mydb> db.createCollection("employee")
+{ ok: 1 }
+
+mydb> db.employee.remove({empid:1})
+{ acknowledged: true, deletedCount: 1 }
+
+mydb> db.employee.insertOne({
+... empid:1,
+... name:{fname:"megha",lname:"tiwari"},
+... company_name:"oracle",
+... salary:500000,
+... designation:"dba",
+... age:25,
+... expertise:["mysql","mongodb"],
+... dob:"11/08/1998",
+... email:"megha@gmail.com",
+... contact:7894561230,
+...address:[{l_add:{city:"pune",pin:411010,state:"maharashtra"}},{p_add:{city:"pune",pin:411010,state:"maharashtra"}}]
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId("6531f87a83e44417cbefe14b")
+}
+
+
+mydb> db.employee.insertOne({ empid:2, name:"suman", company_name:"tcs", salary:400000, designation:"programmer", age:26, expertise:["python","c++"], dob:"16/10/1997", email:"suman@gmail.com", contact:7418529630, address:[{l_add:"new delhi"},{p_add:"kolkata"}]})
+
+{
+  acknowledged: true,
+  insertedId: ObjectId("65324ae0463d97ec305d15fe")
+}
+
+
+mydb> db.employee.insertOne({ empid:3, name:{fname:"garima", lname:"das"}, company_name:"infosys", salary:500000, designation:"developer", age:27, expertise:["python","c++","mysql"], dob:"16/12/1996", email:"garima@gmail.com", contact:7777529630, address:[{l_add:{city:"mumbai", pin: 451236, state: "maharashtra" }},{p_add:{city:"puri", pin:650010, state:"orissa"}}]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("65325079463d97ec305d1600")
+}
+
+mydb> db.employee.insertMany([{ empid:4, name:{fname:"akash", lname:"kumar"}, company_name:"infosys", salary:350000, designation:"developer", age:23, expertise:["python"], dob:"06/12/2000", email:"akash@gmail.com", contact:7452528630, address:[{l_add:{city:"mumbai", pin: 451236, state: "maharashtra" }},{p_add:{city:"pune", pin:410110, state:"maharashtra"}}]}, {empid:5, name:"tanya", company_name:"capgemini", salary:600000, designation:"dba", age: 32, expertise:["mysql","mongodb","cassandra"], dob:"14/02/1991", email:"tanya@gmail.com", address:[{l_add:{city:"pune", pin:410110, state:"maharahtra"}},{p_add:{city:"nashik", pin:451102, state:"maharashtra"}}]}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("653251a3463d97ec305d1601"),
+    '1': ObjectId("653251a3463d97ec305d1602")
+  }
+}
+
+db.employee([{
+... empid:6,
+... name:{fname:"shubham",lname:"tiwari"},
+... company_name:"microsoft",
+... salary:500000,
+... designation: "tester",
+... age:27,
+... expertise:["c++","java"],
+... dob:"14/09/1996",
+... email:"shubham@gmail.com",
+... address: [
+...   { l_add: "kolkata"},
+...   { p_add: "new delhi"}
+... ]
+... },
+... {
+... empid:7,
+... name: "riya",
+... company_name:"infosys",
+... salary:450000,
+... designation:"programmer",
+... age:23,
+... expertise:["java"],
+... dob:"12/09/2000",
+... email:"riya@gmail.com",
+... address:{city: "guwahati", pin: 788141, state: "assam"}
+... }])
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6532574a463d97ec305d1603"),
+    '1': ObjectId("6532574a463d97ec305d1604")
+  }
+}
+
+
+mydb> db.employee.insertMany([{
+... empid:8,
+... name:{fname:"anjali",lname:"singh"},
+... company_name:"microsoft",
+... salary:470000,
+... designation: "tester",
+... age:25,
+... expertise:["c++","python"],
+... dob:"19/07/1998",
+... email:"anjali@gmail.com",
+... address:[{l_add:{city:"new delhi", pin:101100, state:"delhi"}},{p_add:{city:"bengaluru", pin:741100, state:"karnataka"}}],
+... },
+... {
+... empid:9,
+... name:"ayush",
+... company_name:"capgemini",
+... salary:300000,
+... designation:"programmer",
+... age:23,
+... expertise:["python"],
+... dob:"11/11/2000",
+... email:"ayush@gmail.com",
+... address:{city: "jaipur", pin: 230041, state: "rajasthan"}
+... },
+... {
+... empid:10,
+... name: { fname: 'meher', lname: 'patil' },
+... company_name:"oracle",
+... salary:400000,
+... designation:"dba",
+... age:25,
+... expertise:["mysql","mongodb"],
+... dob:"14/10/1998",
+... email:"meher@gmail.com",
+... contact:9994561230,
+... address:[{l_add:{city:"pune",pin:411010,state:"maharashtra"}},{p_add:{city:"pune",pin:411010,state:"maharashtra"}}]
+... }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("65325abb463d97ec305d1605"),
+    '1': ObjectId("65325abb463d97ec305d1606"),
+    '2': ObjectId("65325abb463d97ec305d1607")
+  }
+}
+
+
+
+
+mydb> db.employee.find()
+[
+  {
+    _id: ObjectId("6531f87a83e44417cbefe14b"),
+    empid: 1,
+    name: { fname: 'megha', lname: 'tiwari' },
+    company_name: 'oracle',
+    salary: 500000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '11/08/1998',
+    email: 'megha@gmail.com',
+    contact: 7894561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("65324c25463d97ec305d15ff"),
+    empid: 2,
+    name: 'suman',
+    company_name: 'tcs',
+    salary: 400000,
+    designation: 'programmer',
+    age: 26,
+    expertise: [ 'python', 'c++' ],
+    dob: '16/10/1997',
+    email: 'suman@gmail.com',
+    contact: 7418529630,
+    address: [ { l_add: 'new delhi' }, { p_add: 'kolkata' } ]
+  },
+  {
+    _id: ObjectId("65325079463d97ec305d1600"),
+    empid: 3,
+    name: { fname: 'garima', lname: 'das' },
+    company_name: 'infosys',
+    salary: 500000,
+    designation: 'developer',
+    age: 27,
+    expertise: [ 'python', 'c++', 'mysql' ],
+    dob: '16/12/1996',
+    email: 'garima@gmail.com',
+    contact: 7777529630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'puri', pin: 650010, state: 'orissa' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    empid: 4,
+    name: { fname: 'akash', lname: 'kumar' },
+    company_name: 'infosys',
+    salary: 350000,
+    designation: 'developer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '06/12/2000',
+    email: 'akash@gmail.com',
+    contact: 7452528630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    company_name: 'capgemini',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1603"),
+    empid: 6,
+    name: { fname: 'shubham', lname: 'tiwari' },
+    company_name: 'microsoft',
+    salary: 500000,
+    designation: 'tester',
+    age: 27,
+    expertise: [ 'c++', 'java' ],
+    dob: '14 / 09 / 1996',
+    email: 'shubham@gmail.com',
+    address: [ { l_add: 'kolkata' }, { p_add: 'new delhi' } ]
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    empid: 7,
+    name: 'riya',
+    company_name: 'infosys',
+    salary: 450000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'java' ],
+    dob: '12/09/2000',
+    email: 'riya@gmail.com',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' }
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1605"),
+    empid: 8,
+    name: { fname: 'anjali', lname: 'singh' },
+    company_name: 'microsoft',
+    salary: 470000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'c++', 'python' ],
+    dob: '19/07/1998',
+    email: 'anjali@gmail.com',
+    address: [
+      { l_add: { city: 'new delhi', pin: 101100, state: 'delhi' } },
+      { p_add: { city: 'bengaluru', pin: 741100, state: 'karnataka' } }
+    ]
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1606"),
+    empid: 9,
+    name: 'ayush',
+    company_name: 'capgemini',
+    salary: 300000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '11/11/2000',
+    email: 'ayush@gmail.com',
+    address: { city: 'jaipur', pin: 230041, state: 'rajasthan' }
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1607"),
+    empid: 10,
+    name: { fname: 'meher', lname: 'patil' },
+    company_name: 'oracle',
+    salary: 400000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '14/10/1998',
+    email: 'meher@gmail.com',
+    contact: 9994561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  }
+]
+
+
+*********************************************************************************
+
+A) Aggregation operations: 
+
+Q1. Return Designation with Total Salary is Above 200000
+
+mydb>db.employee.aggregate([{$match:{salary:{$gt:200000}}},{$group:{_id:"$designation",total:{$sum:"$salary"}}}])
+
+[
+  { _id: 'dba', total: 1500000 },
+  { _id: 'programmer', total: 750000 },
+  { _id: 'developer', total: 350000 },
+  { _id: 'tester', total: 970000 }
+]
+
+
+Q2. Find Employee with Total Salary for Each City with Designation="DBA"
+
+mydb> db.employee.aggregate([{$match:{designation:"dba"}},{$group:{_id:"$addredss.city", total:{$sum:"$salary"}}}])
+
+[ { _id: null, total: 1500000 } ]
+
+
+Q3. Find Total Salary of Employee with Designation="DBA" for Each Company
+
+mydb> db.employee.aggregate([{$match:{designation:"dba"}},{$group:{_id:"$company_name", total:{$sum:"$salary"}}}])
+[
+  { _id: 'capgemini', total: 600000 },
+  { _id: 'oracle', total: 900000 }
+]
+
+Q4. Returns names and _id in upper case and in alphabetical order
+
+mydb> db.employee.aggregate([{$sort:{name:1}},{$project:{name:{$toUpper:"$name.fname"}}}])
+[
+  { _id: ObjectId("65325abb463d97ec305d1606"), name: '' },        
+  { _id: ObjectId("6532574a463d97ec305d1604"), name: '' },
+  { _id: ObjectId("65324c25463d97ec305d15ff"), name: '' },
+  { _id: ObjectId("653251a3463d97ec305d1602"), name: '' },
+  { _id: ObjectId("653251a3463d97ec305d1601"), name: 'AKASH' },
+  { _id: ObjectId("65325abb463d97ec305d1605"), name: 'ANJALI' },
+  { _id: ObjectId("6531f87a83e44417cbefe14b"), name: 'MEGHA' },
+  { _id: ObjectId("65325abb463d97ec305d1607"), name: 'MEHER' },
+  { _id: ObjectId("6532574a463d97ec305d1603"), name: 'SHUBHAM' },
+  { _id: ObjectId("6534c268463d97ec305d1608"), name: 'SIDHART' }
+]
+mydb> db.employee.aggregate([{$sort:{name:1}},{$project:{name:{$toUpper:"$name"}}}])
+MongoServerError: PlanExecutor error during aggregation :: caused by :: can't convert from BSON type object to String
+
+
+Q5. Count all records from collection 
+
+mydb> db.employee.countDocuments()
+10
+
+Q6. For each unique Designation, find avg Salary and output is sorted by AvgSal
+
+mydb> db.employee.aggregate([{$group:{_id:"$designation", avg_sal:{$avg:"$salary"}}}, {$sort:{avg_sal:1}}])
+[
+  { _id: 'programmer', avg_sal: 316666.6666666667 },
+  { _id: 'developer', avg_sal: 350000 },
+  { _id: 'tester', avg_sal: 390000 },
+  { _id: 'dba', avg_sal: 500000 }
+]
+
+Q7. Return separates value in the Expertise array where Name of Employee="Swapnil"
+
+mydb> db.employee.aggregate([{$match:{'name.fname':"megha"}},{$group:{_id:"$expertise"}}])
+
+[ { _id: [ 'mysql', 'mongodb' ] } ]
+
+
+Q8. Return separate value in the Expertise array and return sum of each element of array
+
+mydb> db.employee.aggregate([{$group:{_id:"$expertise"}}])
+[
+  { _id: [ 'c++', 'java' ] },
+  { _id: [ 'python' ] },
+  { _id: [ 'java' ] },
+  { _id: [ 'c++', 'python' ] },
+  { _id: [ 'python', 'c++' ] },
+  { _id: [ 'mysql', 'mongodb' ] },
+  { _id: [ 'mysql', 'mongodb', 'cassandra' ] },
+  { _id: [ 'java', 'c++' ] }
+]
+
+
+Q9. Return Array for Designation whose address is "Pune"
+
+mydb> db.employee.aggregate([{$match:{'address.l_add.city':"pune"}}, {$group:{_id:"$designation"}}])
+[ { _id: 'tester' }, { _id: 'dba' } ]
+
+Q10. Return Max and Min Salary for each company.
+
+mydb> db.employee.aggregate([{"$group":{_id:null,max:{$max: "$salary"}, min:{$min: "$salary"}}}])
+[ { _id: null, max: 600000, min: 200000 } ]
+
+
+
+****************************************************************************
+
+
+
+B) Indexing operations:
+
+
+
+Q1. To Create Single Field Indexes on Designation  
+
+mydb> db.employee.ensureIndex({designation:1})
+[ 'designation_1' ]
+
+Q2. To Create Compound Indexes on Name: 1, Age: -1
+
+mydb> db.employee.ensureIndex({name:1,age:-1})
+[ 'name_1_age_-1' ]
+
+Q3. To Create Multikey Indexes on Expertise array
+
+mydb> db.employee.ensureIndex({"expertise.mongodb":1,"expertise.mysql":1,"expertise.cassandra":1})
+[ 'expertise.mongodb_1_expertise.mysql_1_expertise.cassandra_1' ]
+
+Q4. Return a List of All Indexes on Collection
+
+mydb> db.employee.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { designation: 1 }, name: 'designation_1' },
+  { v: 2, key: { name: 1, age: -1 }, name: 'name_1_age_-1' },
+  {
+    v: 2,
+    key: {
+      'expertise.mongodb': 1,
+      'expertise.mysql': 1,
+      'expertise.cassandra': 1
+    },
+    name: 'expertise.mongodb_1_expertise.mysql_1_expertise.cassandra_1'
+  }
+]
+
+
+Q5. Rebuild Indexes
+
+mydb> db.employee.reIndex()
+{
+  nIndexesWas: 4,
+  nIndexes: 4,
+  indexes: [
+    { v: 2, key: { _id: 1 }, name: '_id_' },
+    { v: 2, key: { designation: 1 }, name: 'designation_1' },
+    { v: 2, key: { name: 1, age: -1 }, name: 'name_1_age_-1' },
+    {
+      v: 2,
+      key: {
+        'expertise.mongodb': 1,
+        'expertise.mysql': 1,
+        'expertise.cassandra': 1
+      },
+      name: 'expertise.mongodb_1_expertise.mysql_1_expertise.cassandra_1'
+    }
+  ],
+  ok: 1
+}
+
+
+Q6. Drop Index on Remove Specific Index
+
+mydb> db.employee.dropIndex({designation:1})
+{ nIndexesWas: 4, ok: 1 }
+
+Q7. Remove All Indexes except for the _id index from a collection
+
+mydb> db.employee.dropIndexes()
+{
+  nIndexesWas: 3,
+  msg: 'non-_id indexes dropped for collection',
+  ok: 1
+}
+mydb> db.employee.getIndexes()
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+

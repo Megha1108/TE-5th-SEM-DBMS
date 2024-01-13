@@ -1,0 +1,969 @@
+NAME : Megha
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : B1
+ASSIGNMENT TITLE : MongoDB Queries:
+Design and Develop MongoDB Queries using CRUD operations.(Use CRUD operations,
+SAVE method, logical operators etc.).
+
+****************************************************************
+C:\Users\MEGHA>mongosh
+Current Mongosh Log ID: 6531f12283e44417cbefe147
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-10-19T22:32:39.432+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+
+test> use mydb
+switched to db mydb
+
+mydb> db
+mydb
+
+mydb> db.createCollection("employee")
+{ ok: 1 }
+
+mydb> db.employee.remove({empid:1})
+{ acknowledged: true, deletedCount: 1 }
+
+mydb> db.employee.insertOne({
+... empid:1,
+... name:{fname:"megha",lname:"tiwari"},
+... company_name:"oracle",
+... salary:500000,
+... designation:"dba",
+... age:25,
+... expertise:["mysql","mongodb"],
+... dob:"11/08/1998",
+... email:"megha@gmail.com",
+... contact:7894561230,
+...address:[{l_add:{city:"pune",pin:411010,state:"maharashtra"}},{p_add:{city:"pune",pin:411010,state:"maharashtra"}}]
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId("6531f87a83e44417cbefe14b")
+}
+
+
+mydb> db.employee.insertOne({ empid:2, name:"suman", company_name:"tcs", salary:400000, designation:"programmer", age:26, expertise:["python","c++"], dob:"16/10/1997", email:"suman@gmail.com", contact:7418529630, address:[{l_add:"new delhi"},{p_add:"kolkata"}]})
+
+{
+  acknowledged: true,
+  insertedId: ObjectId("65324ae0463d97ec305d15fe")
+}
+
+
+mydb> db.employee.insertOne({ empid:3, name:{fname:"garima", lname:"das"}, company_name:"infosys", salary:500000, designation:"developer", age:27, expertise:["python","c++","mysql"], dob:"16/12/1996", email:"garima@gmail.com", contact:7777529630, address:[{l_add:{city:"mumbai", pin: 451236, state: "maharashtra" }},{p_add:{city:"puri", pin:650010, state:"orissa"}}]})
+{
+  acknowledged: true,
+  insertedId: ObjectId("65325079463d97ec305d1600")
+}
+
+mydb> db.employee.insertMany([{ empid:4, name:{fname:"akash", lname:"kumar"}, company_name:"infosys", salary:350000, designation:"developer", age:23, expertise:["python"], dob:"06/12/2000", email:"akash@gmail.com", contact:7452528630, address:[{l_add:{city:"mumbai", pin: 451236, state: "maharashtra" }},{p_add:{city:"pune", pin:410110, state:"maharashtra"}}]}, {empid:5, name:"tanya", company_name:"capgemini", salary:600000, designation:"dba", age: 32, expertise:["mysql","mongodb","cassandra"], dob:"14/02/1991", email:"tanya@gmail.com", address:[{l_add:{city:"pune", pin:410110, state:"maharahtra"}},{p_add:{city:"nashik", pin:451102, state:"maharashtra"}}]}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("653251a3463d97ec305d1601"),
+    '1': ObjectId("653251a3463d97ec305d1602")
+  }
+}
+
+db.employee([{
+... empid:6,
+... name:{fname:"shubham",lname:"tiwari"},
+... company_name:"microsoft",
+... salary:500000,
+... designation: "tester",
+... age:27,
+... expertise:["c++","java"],
+... dob:"14/09/1996",
+... email:"shubham@gmail.com",
+... address: [
+...   { l_add: "kolkata"},
+...   { p_add: "new delhi"}
+... ]
+... },
+... {
+... empid:7,
+... name: "riya",
+... company_name:"infosys",
+... salary:450000,
+... designation:"programmer",
+... age:23,
+... expertise:["java"],
+... dob:"12/09/2000",
+... email:"riya@gmail.com",
+... address:{city: "guwahati", pin: 788141, state: "assam"}
+... }])
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("6532574a463d97ec305d1603"),
+    '1': ObjectId("6532574a463d97ec305d1604")
+  }
+}
+
+
+mydb> db.employee.insertMany([{
+... empid:8,
+... name:{fname:"anjali",lname:"singh"},
+... company_name:"microsoft",
+... salary:470000,
+... designation: "tester",
+... age:25,
+... expertise:["c++","python"],
+... dob:"19/07/1998",
+... email:"anjali@gmail.com",
+... address:[{l_add:{city:"new delhi", pin:101100, state:"delhi"}},{p_add:{city:"bengaluru", pin:741100, state:"karnataka"}}],
+... },
+... {
+... empid:9,
+... name:"ayush",
+... company_name:"capgemini",
+... salary:300000,
+... designation:"programmer",
+... age:23,
+... expertise:["python"],
+... dob:"11/11/2000",
+... email:"ayush@gmail.com",
+... address:{city: "jaipur", pin: 230041, state: "rajasthan"}
+... },
+... {
+... empid:10,
+... name: { fname: 'meher', lname: 'patil' },
+... company_name:"oracle",
+... salary:400000,
+... designation:"dba",
+... age:25,
+... expertise:["mysql","mongodb"],
+... dob:"14/10/1998",
+... email:"meher@gmail.com",
+... contact:9994561230,
+... address:[{l_add:{city:"pune",pin:411010,state:"maharashtra"}},{p_add:{city:"pune",pin:411010,state:"maharashtra"}}]
+... }])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("65325abb463d97ec305d1605"),
+    '1': ObjectId("65325abb463d97ec305d1606"),
+    '2': ObjectId("65325abb463d97ec305d1607")
+  }
+}
+
+
+
+
+mydb> db.employee.find()
+[
+  {
+    _id: ObjectId("6531f87a83e44417cbefe14b"),
+    empid: 1,
+    name: { fname: 'megha', lname: 'tiwari' },
+    company_name: 'oracle',
+    salary: 500000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '11/08/1998',
+    email: 'megha@gmail.com',
+    contact: 7894561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("65324c25463d97ec305d15ff"),
+    empid: 2,
+    name: 'suman',
+    company_name: 'tcs',
+    salary: 400000,
+    designation: 'programmer',
+    age: 26,
+    expertise: [ 'python', 'c++' ],
+    dob: '16/10/1997',
+    email: 'suman@gmail.com',
+    contact: 7418529630,
+    address: [ { l_add: 'new delhi' }, { p_add: 'kolkata' } ]
+  },
+  {
+    _id: ObjectId("65325079463d97ec305d1600"),
+    empid: 3,
+    name: { fname: 'garima', lname: 'das' },
+    company_name: 'infosys',
+    salary: 500000,
+    designation: 'developer',
+    age: 27,
+    expertise: [ 'python', 'c++', 'mysql' ],
+    dob: '16/12/1996',
+    email: 'garima@gmail.com',
+    contact: 7777529630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'puri', pin: 650010, state: 'orissa' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    empid: 4,
+    name: { fname: 'akash', lname: 'kumar' },
+    company_name: 'infosys',
+    salary: 350000,
+    designation: 'developer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '06/12/2000',
+    email: 'akash@gmail.com',
+    contact: 7452528630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    company_name: 'capgemini',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1603"),
+    empid: 6,
+    name: { fname: 'shubham', lname: 'tiwari' },
+    company_name: 'microsoft',
+    salary: 500000,
+    designation: 'tester',
+    age: 27,
+    expertise: [ 'c++', 'java' ],
+    dob: '14 / 09 / 1996',
+    email: 'shubham@gmail.com',
+    address: [ { l_add: 'kolkata' }, { p_add: 'new delhi' } ]
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    empid: 7,
+    name: 'riya',
+    company_name: 'infosys',
+    salary: 450000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'java' ],
+    dob: '12/09/2000',
+    email: 'riya@gmail.com',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' }
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1605"),
+    empid: 8,
+    name: { fname: 'anjali', lname: 'singh' },
+    company_name: 'microsoft',
+    salary: 470000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'c++', 'python' ],
+    dob: '19/07/1998',
+    email: 'anjali@gmail.com',
+    address: [
+      { l_add: { city: 'new delhi', pin: 101100, state: 'delhi' } },
+      { p_add: { city: 'bengaluru', pin: 741100, state: 'karnataka' } }
+    ]
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1606"),
+    empid: 9,
+    name: 'ayush',
+    company_name: 'capgemini',
+    salary: 300000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '11/11/2000',
+    email: 'ayush@gmail.com',
+    address: { city: 'jaipur', pin: 230041, state: 'rajasthan' }
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1607"),
+    empid: 10,
+    name: { fname: 'meher', lname: 'patil' },
+    company_name: 'oracle',
+    salary: 400000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '14/10/1998',
+    email: 'meher@gmail.com',
+    contact: 9994561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  }
+]
+
+
+*********************************************************************************
+
+Q1.Select all documents where the Designation field has the value "Programmer" and the 
+value of the salary field is greater than 30000
+
+mydb> db.employee.find({designation:"programmer",salary:{$gt:30000}})
+[
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    empid: 7,
+    name: 'riya',
+    company_name: 'infosys',
+    salary: 450000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'java' ],
+    dob: '12/09/2000',
+    email: 'riya@gmail.com',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' }
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1606"),
+    empid: 9,
+    name: 'ayush',
+    company_name: 'capgemini',
+    salary: 300000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '11/11/2000',
+    email: 'ayush@gmail.com',
+    address: { city: 'jaipur', pin: 230041, state: 'rajasthan' }
+  }
+]
+
+
+
+Q2.Creates a new document if no document in the employee collection contain
+
+mydb> db.employee.find({designation:"tester",company_name:"tcs",age:25})
+
+
+Q3.{Designation: "Tester", Company_name: "TCS", Age: 25}
+
+mydb> db.employee.insertOne({empid:11, name:{fname:"sidhart", lname:"tripathi"}, company_name: "tcs", salary:500000, designation:"tester", age:25, expertise:["java","c++"], dob: "05/06/1998", email:"sid@gmail.com", contact:9632587410, address:[{l_add:{city:"pune", pin:411014, state: "maharashtra"}},{p_add:{city:"ahmednagar", pin:452001, state:"maharashtra"}}]})
+
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("6534c268463d97ec305d1608") }
+}
+
+mydb> db.employee.find({designation:"tester",company_name:"tcs",age:25})
+[
+  {
+    _id: ObjectId("6534c268463d97ec305d1608"),
+    empid: 11,
+    name: { fname: 'sidhart', lname: 'tripathi' },
+    company_name: 'tcs',
+    salary: 500000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'java', 'c++' ],
+    dob: '05/06/1998',
+    email: 'sid@gmail.com',
+    contact: 9632587410,
+    address: [
+      { l_add: { city: 'pune', pin: 411014, state: 'maharashtra' } },
+      {
+        p_add: { city: 'ahmednagar', pin: 452001, state: 'maharashtra' }
+      }
+    ]
+  }
+]
+
+
+Q4. Selects all documents in the collection where the field age has a value less than 25 or 
+the value of the salary field is greater than 40000.
+
+mydb> db.employee.find({$or:[{age:{$lt:25}},{salary:{$gt:400000}}]})
+[
+  {
+    _id: ObjectId("6531f87a83e44417cbefe14b"),
+    empid: 1,
+    name: { fname: 'megha', lname: 'tiwari' },
+    company_name: 'oracle',
+    salary: 500000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '11/08/1998',
+    email: 'megha@gmail.com',
+    contact: 7894561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    empid: 4,
+    name: { fname: 'akash', lname: 'kumar' },
+    company_name: 'infosys',
+    salary: 350000,
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '06/12/2000',
+    email: 'akash@gmail.com',
+    contact: 7452528630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ],
+    designation: 'developer'
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ],
+    company_name: 'capgemini'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1603"),
+    empid: 6,
+    name: { fname: 'shubham', lname: 'tiwari' },
+    salary: 500000,
+    designation: 'tester',
+    age: 27,
+    expertise: [ 'c++', 'java' ],
+    dob: '14 / 09 / 1996',
+    email: 'shubham@gmail.com',
+    address: [ { l_add: 'kolkata' }, { p_add: 'new delhi' } ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    empid: 7,
+    name: 'riya',
+    salary: 450000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'java' ],
+    dob: '12/09/2000',
+    email: 'riya@gmail.com',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' },
+    company_name: 'infosys'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1605"),
+    empid: 8,
+    name: { fname: 'anjali', lname: 'singh' },
+    salary: 470000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'c++', 'python' ],
+    dob: '19/07/1998',
+    email: 'anjali@gmail.com',
+    address: [
+      { l_add: { city: 'new delhi', pin: 101100, state: 'delhi' } },
+      { p_add: { city: 'bengaluru', pin: 741100, state: 'karnataka' } }
+    ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1606"),
+    empid: 9,
+    name: 'ayush',
+    salary: 300000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '11/11/2000',
+    email: 'ayush@gmail.com',
+    address: { city: 'jaipur', pin: 230041, state: 'rajasthan' },
+    company_name: 'capgemini'
+  }
+]
+
+
+Q5. Matches all documents where the value of the field Address is an embedded 
+document that contains only the field city with the value "Pune" and the field 
+Pin_code with the value "411001"
+
+mydb> db.employee.find({$or:[{'address.l_add.city':"pune"},{'address.l_add.pin':411014}]})
+[
+  {
+    _id: ObjectId("6531f87a83e44417cbefe14b"),
+    empid: 1,
+    name: { fname: 'megha', lname: 'tiwari' },
+    company_name: 'oracle',
+    salary: 500000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '11/08/1998',
+    email: 'megha@gmail.com',
+    contact: 7894561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ],
+    company_name: 'capgemini'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1607"),
+    empid: 10,
+    name: { fname: 'meher', lname: 'patil' },
+    company_name: 'oracle',
+    salary: 400000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '14/10/1998',
+    email: 'meher@gmail.com',
+    contact: 9994561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("6534c268463d97ec305d1608"),
+    empid: 11,
+    name: { fname: 'sidhart', lname: 'tripathi' },
+    company_name: 'tcs',
+    salary: 500000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'java', 'c++' ],
+    dob: '05/06/1998',
+    email: 'sid@gmail.com',
+    contact: 9632587410,
+    address: [
+      { l_add: { city: 'pune', pin: 411014, state: 'maharashtra' } },
+      {
+        p_add: { city: 'ahmednagar', pin: 452001, state: 'maharashtra' }
+      }
+    ]
+  }
+]
+
+
+Q6.Finds all documents with Company_name: "TCS" and modifies their salary field by 
+200000
+
+mydb> db.employee.updateMany({company_name:"tcs"},{$set:{salary:200000}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 2,
+  modifiedCount: 2,
+  upsertedCount: 0
+}
+
+mydb> db.employee.find({company_name:"tcs"})
+[
+  {
+    _id: ObjectId("65324c25463d97ec305d15ff"),
+    empid: 2,
+    name: 'suman',
+    company_name: 'tcs',
+    salary: 200000,
+    designantion: 'programmer',
+    age: 26,
+    expertise: [ 'python', 'c++' ],
+    dob: '16/10/1997',
+    email: 'suman@gmail.com',
+    contact: 7418529630,
+    address: [ { l_add: 'new delhi' }, { p_add: 'kolkata' } ]
+  },
+  {
+    _id: ObjectId("6534c268463d97ec305d1608"),
+    empid: 11,
+    name: { fname: 'sidhart', lname: 'tripathi' },
+    company_name: 'tcs',
+    salary: 200000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'java', 'c++' ],
+    dob: '05/06/1998',
+    email: 'sid@gmail.com',
+    contact: 9632587410,
+    address: [
+      { l_add: { city: 'pune', pin: 411014, state: 'maharashtra' } },
+      {
+        p_add: { city: 'ahmednagar', pin: 452001, state: 'maharashtra' }
+      }
+    ]
+  }
+]
+
+
+Q7.Find documents where Designation is not equal to "Developer".
+
+mydb> db.employee.find({designation:{$ne:"developer"}})
+[
+  {
+    _id: ObjectId("6531f87a83e44417cbefe14b"),
+    empid: 1,
+    name: { fname: 'megha', lname: 'tiwari' },
+    company_name: 'oracle',
+    salary: 500000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '11/08/1998',
+    email: 'megha@gmail.com',
+    contact: 7894561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("65324c25463d97ec305d15ff"),
+    empid: 2,
+    name: 'suman',
+    company_name: 'tcs',
+    salary: 200000,
+    designation: 'programmer',
+    age: 26,
+    expertise: [ 'python', 'c++' ],
+    dob: '16/10/1997',
+    email: 'suman@gmail.com',
+    contact: 7418529630,
+    address: [ { l_add: 'new delhi' }, { p_add: 'kolkata' } ]
+  },
+  {
+    _id: ObjectId("65325079463d97ec305d1600"),
+    empid: 3,
+    name: { fname: 'garima', lname: 'das' },
+    company_name: 'infosys',
+    salary: 500000,
+    designation: 'developer',
+    age: 27,
+    expertise: [ 'python', 'c++', 'mysql' ],
+    dob: '16/12/1996',
+    email: 'garima@gmail.com',
+    contact: 7777529630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'puri', pin: 650010, state: 'orissa' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    empid: 4,
+    name: { fname: 'akash', lname: 'kumar' },
+    company_name: 'infosys',
+    salary: 350000,
+    designation: 'developer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '06/12/2000',
+    email: 'akash@gmail.com',
+    contact: 7452528630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ],
+    company_name: 'capgemini'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1603"),
+    empid: 6,
+    name: { fname: 'shubham', lname: 'tiwari' },
+    salary: 500000,
+    designation: 'tester',
+    age: 27,
+    expertise: [ 'c++', 'java' ],
+    dob: '14 / 09 / 1996',
+    email: 'shubham@gmail.com',
+    address: [ { l_add: 'kolkata' }, { p_add: 'new delhi' } ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    empid: 7,
+    name: 'riya',
+    salary: 450000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'java' ],
+    dob: '12/09/2000',
+    email: 'riya@gmail.com',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' },
+    company_name: 'infosys'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1605"),
+    empid: 8,
+    name: { fname: 'anjali', lname: 'singh' },
+    salary: 470000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'c++', 'python' ],
+    dob: '19/07/1998',
+    email: 'anjali@gmail.com',
+    address: [
+      { l_add: { city: 'new delhi', pin: 101100, state: 'delhi' } },
+      { p_add: { city: 'bengaluru', pin: 741100, state: 'karnataka' } }
+    ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1606"),
+    empid: 9,
+    name: 'ayush',
+    salary: 300000,
+    designation: 'programmer',
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '11/11/2000',
+    email: 'ayush@gmail.com',
+    address: { city: 'jaipur', pin: 230041, state: 'rajasthan' },
+    company_name: 'capgemini'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1607"),
+    empid: 10,
+    name: { fname: 'meher', lname: 'patil' },
+    company_name: 'oracle',
+    salary: 400000,
+    designation: 'dba',
+    age: 25,
+    expertise: [ 'mysql', 'mongodb' ],
+    dob: '14/10/1998',
+    email: 'meher@gmail.com',
+    contact: 9994561230,
+    address: [
+      { l_add: { city: 'pune', pin: 411010, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 411010, state: 'maharashtra' } }
+    ]
+  },
+  {
+    _id: ObjectId("6534c268463d97ec305d1608"),
+    empid: 11,
+    name: { fname: 'sidhart', lname: 'tripathi' },
+    company_name: 'tcs',
+    salary: 200000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'java', 'c++' ],
+    dob: '05/06/1998',
+    email: 'sid@gmail.com',
+    contact: 9632587410,
+    address: [
+      { l_add: { city: 'pune', pin: 411014, state: 'maharashtra' } },
+      {
+        p_add: { city: 'ahmednagar', pin: 452001, state: 'maharashtra' }
+      }
+    ]
+  }
+]
+
+
+Q8.Find _id, Designation, Address and Name from all documents where Company_name 
+is "Infosys"
+
+mydb> db.employee.find({company_name:"infosys"},{_id:1, designation:1,address:1, name:1})
+[
+  {
+    _id: ObjectId("65325079463d97ec305d1600"),
+    name: { fname: 'garima', lname: 'das' },
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'puri', pin: 650010, state: 'orissa' } }
+    ],
+    designation: 'developer'
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    name: { fname: 'akash', lname: 'kumar' },
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ],
+    designation: 'developer'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1604"),
+    name: 'riya',
+    designation: 'programmer',
+    address: { city: 'guwahati', pin: 788141, state: 'assam' }
+  }
+]
+
+
+Q9.Selects all documents in the employee collection where the value of the Designation 
+is either "Developer" or "Tester"
+
+mydb> db.employee.find({$or:[{designation:"tester"},{designation:"developer"}]})
+
+OR
+
+mydb> db.employee.find({designation:{$in:["tester","developer"]}})
+
+[
+  {
+    _id: ObjectId("65325079463d97ec305d1600"),
+    empid: 3,
+    name: { fname: 'garima', lname: 'das' },
+    company_name: 'infosys',
+    salary: 500000,
+    age: 27,
+    expertise: [ 'python', 'c++', 'mysql' ],
+    dob: '16/12/1996',
+    email: 'garima@gmail.com',
+    contact: 7777529630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'puri', pin: 650010, state: 'orissa' } }
+    ],
+    designation: 'developer'
+  },
+  {
+    _id: ObjectId("653251a3463d97ec305d1601"),
+    empid: 4,
+    name: { fname: 'akash', lname: 'kumar' },
+    company_name: 'infosys',
+    salary: 350000,
+    age: 23,
+    expertise: [ 'python' ],
+    dob: '06/12/2000',
+    email: 'akash@gmail.com',
+    contact: 7452528630,
+    address: [
+      { l_add: { city: 'mumbai', pin: 451236, state: 'maharashtra' } },
+      { p_add: { city: 'pune', pin: 410110, state: 'maharashtra' } }
+    ],
+    designation: 'developer'
+  },
+  {
+    _id: ObjectId("6532574a463d97ec305d1603"),
+    empid: 6,
+    name: { fname: 'shubham', lname: 'tiwari' },
+    salary: 500000,
+    designation: 'tester',
+    age: 27,
+    expertise: [ 'c++', 'java' ],
+    dob: '14 / 09 / 1996',
+    email: 'shubham@gmail.com',
+    address: [ { l_add: 'kolkata' }, { p_add: 'new delhi' } ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("65325abb463d97ec305d1605"),
+    empid: 8,
+    name: { fname: 'anjali', lname: 'singh' },
+    salary: 470000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'c++', 'python' ],
+    dob: '19/07/1998',
+    email: 'anjali@gmail.com',
+    address: [
+      { l_add: { city: 'new delhi', pin: 101100, state: 'delhi' } },
+      { p_add: { city: 'bengaluru', pin: 741100, state: 'karnataka' } }
+    ],
+    company_name: 'microsoft'
+  },
+  {
+    _id: ObjectId("6534c268463d97ec305d1608"),
+    empid: 11,
+    name: { fname: 'sidhart', lname: 'tripathi' },
+    company_name: 'tcs',
+    salary: 200000,
+    designation: 'tester',
+    age: 25,
+    expertise: [ 'java', 'c++' ],
+    dob: '05/06/1998',
+    email: 'sid@gmail.com',
+    contact: 9632587410,
+    address: [
+      { l_add: { city: 'pune', pin: 411014, state: 'maharashtra' } },
+      {
+        p_add: { city: 'ahmednagar', pin: 452001, state: 'maharashtra' }
+      }
+    ]
+  }
+]
+
+
+Q10. Find all document with Exact Match on an Array having Expertise: 
+['Mongodb','Mysql', 'Cassandra']
+
+mydb> db.employee.find({expertise:{$all:["mongodb","mysql","cassandra"]}})
+[
+  {
+    _id: ObjectId("653251a3463d97ec305d1602"),
+    empid: 5,
+    name: 'tanya',
+    salary: 600000,
+    designation: 'dba',
+    age: 32,
+    expertise: [ 'mysql', 'mongodb', 'cassandra' ],
+    dob: '14/02/1991',
+    email: 'tanya@gmail.com',
+    address: [
+      { l_add: { city: 'pune', pin: 410110, state: 'maharahtra' } },
+      { p_add: { city: 'nashik', pin: 451102, state: 'maharashtra' } }
+    ],
+    company_name: 'capgemini'
+  }
+]
+
+Q11. Drop Single documents where designation="Developer"
+
+mydb> db.employee.deleteOne({designation:"developer"})
+{ acknowledged: true, deletedCount: 1 }

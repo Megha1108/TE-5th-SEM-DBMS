@@ -1,0 +1,140 @@
+NAME : MEGHA
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : A6
+ASSIGNMENT TITLE : Named PL/SQL Block: PL/SQL Stored Procedure and Stored
+Function.
+
+
+create table stud_marks (roll_no int, name varchar(20), marks int)
+Table created.
+insert into stud_marks values(01, 'Megha', 1400)
+1 row(s) inserted.
+insert into stud_marks values(02, 'Simran', 1355)
+1 row(s) inserted.
+insert into stud_marks values(03, 'Garima', 1290)
+1 row(s) inserted.
+insert into stud_marks values(04, 'Saniya', 1440)
+1 row(s) inserted.
+insert into stud_marks values(05, 'Arisha', 1300)
+1 row(s) inserted.
+insert into stud_marks values(06, 'Ishan', 990)
+1 row(s) inserted.
+insert into stud_marks values(07, 'Sumit', 888)
+1 row(s) inserted.
+insert into stud_marks values(08, 'Bharat', 927)
+1 row(s) inserted.
+insert into stud_marks values(09, 'Ranbir', 899)
+1 row(s) inserted.
+insert into stud_marks values(10, 'Shubham', 1000)
+1 row(s) inserted.
+
+
+select *from stud_marks
+ROLL_NO	NAME	MARKS
+1	Megha	1400
+2	Simran	1355
+3	Garima	1290
+4	Saniya	1440
+5	Arisha	1300
+6	Ishan	990
+7	Sumit	888
+8	Bharat	927
+9	Ranbir	899
+10	Shubham	1000
+
+10 rows selected
+
+
+create table result (roll_no int, name varchar(20), class varchar(10))
+Table created.
+
+
+
+create procedure calc_marks2 (rollno in int, rollno1 out stud_marks.roll_no%type, name1 out
+stud_marks.name%type, marks1 out stud_marks.marks%type)
+AS
+BEGIN
+SELECT roll_no, marks, name into rollno1, marks1, name1 from stud_marks where
+roll_no=rollno;
+IF marks1 <= 1500 and marks1 >= 990 THEN
+INSERT INTO result values(rollno1, name1, 'D');
+ELSE IF marks1 <= 989 and marks1 >= 900 THEN
+insert into result values(rollno1, name1, 'FC');
+ELSE IF marks1 <= 899 and marks1 >= 825 THEN
+insert into result values(rollno1, name1, 'HSC');
+ELSE
+insert into result values(rollno1, name1, 'FAIL');
+END IF;
+END IF;
+END IF;
+EXCEPTION
+WHEN no_data_found THEN dbms_output.put_line('roll_no'||rollno||'not found');
+END;
+
+Procedure created.
+
+
+
+DECLARE
+rollno int;
+rollno1 stud_marks.roll_no%type;
+name1 stud_marks.name%type;
+marks1 stud_marks.name%type;
+BEGIN
+rollno :=01;
+calc_marks2(rollno, rollno1, name1, marks1);
+END;
+
+Statement processed.
+
+
+SELECT *FROM result
+
+ROLL_NO	NAME	CLASS
+1	Megha	D
+
+
+
+DECLARE
+v_roll_no stud_marks.roll_no%type;
+v_name stud_marks.name%type;
+v_marks stud_marks.marks%type;
+CURSOR c_student is SELECT roll_no, name, marks FROM stud_marks;
+BEGIN
+OPEN c_student;
+LOOP
+FETCH c_student into v_roll_no, v_name, v_marks;
+EXIT WHEN c_student%notfound;
+IF v_marks <= 1500 and v_marks >= 990 THEN
+INSERT INTO result values(v_roll_no, v_name, 'D');
+ELSE IF v_marks <= 989 and v_marks >= 900 THEN
+insert into result values(v_roll_no, v_name, 'FC');
+ELSE IF v_marks <= 899 and v_marks >= 825 THEN
+insert into result values(v_roll_no, v_name, 'HSC');
+ELSE
+insert into result values(v_roll_no, v_name, 'FAIL');
+END IF;
+END IF;
+END IF;
+END LOOP;
+CLOSE c_student;
+END;
+
+Statement processed.
+
+
+
+select *from result
+ROLL_NO	NAME	CLASS
+1	Megha	D
+2	Simran	D
+3	Garima	D
+4	Saniya	D
+5	Arisha	D
+6	Ishan	D
+7	Sumit	HSC
+8	Bharat	FC
+9	Ranbir	HSC
+10	Shubham	D

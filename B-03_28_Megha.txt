@@ -1,0 +1,385 @@
+NAME : Megha
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : B3
+ASSIGNMENT TITLE :Map-reduces operations
+Implement Map reduces operation with suitable example using MongoDB.
+
+***********************************************************
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\MEGHA> mongosh
+Current Mongosh Log ID: 65431c06f98c401cc1c09905
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2023-10-30T23:46:06.392+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin   40.00 KiB
+config  48.00 KiB
+local   72.00 KiB
+mydb    64.00 KiB
+test> use mydb
+switched to db mydb
+mydb> show collections
+employee
+orders
+
+mydb>  db.orders.insertMany([
+... { _id: 1, cust_id: "Ant O. Knee", ord_date: new Date("2020-03-01"), price: 25, items: [ { sku: "oranges", qty: 5, price: 2.5 }, { sku: "apples", qty: 5,
+ price: 2.5 } ], status: "A" },
+... { _id: 2, cust_id: "Ant O. Knee", ord_date: new Date("2020-03-08"), price: 70, items: [ { sku: "oranges", qty: 8, price: 2.5 }, { sku: "chocolates", qty: 5, price: 10 } ], status: "A" },
+...  { _id: 3, cust_id: "Busby Bee", ord_date: new Date("2020-03-08"), price: 50, items: [ { sku: "oranges", qty: 10, price: 2.5 }, { sku: "pears", qty: 10,
+ price: 2.5 } ], status: "A" },
+... { _id: 4, cust_id: "Busby Bee", ord_date: new Date("2020-03-18"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+... { _id: 5, cust_id: "Busby Bee", ord_date: new Date("2020-03-19"), price: 50, items: [ { sku: "chocolates", qty: 5, price: 10 } ], status: "A"},
+... { _id: 6, cust_id: "Cam Elot", ord_date: new Date("2020-03-19"), price: 35, items: [ { sku: "carrots", qty: 10, price: 1.0 }, { sku: "apples", qty: 10, price: 2.5 } ], status: "A" },
+... { _id: 7, cust_id: "Cam Elot", ord_date: new Date("2020-03-20"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+... { _id: 8, cust_id: "Don Quis", ord_date: new Date("2020-03-20"), price: 75, items: [ { sku: "chocolates", qty: 5, price: 10 }, { sku: "apples", qty: 10,
+ price: 2.5 } ], status: "A" },
+... { _id: 9, cust_id: "Don Quis", ord_date: new Date("2020-03-20"), price: 55, items: [ { sku: "carrots", qty: 5, price: 1.0 }, { sku: "apples", qty: 10, pprice: 2.5 }, { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" },
+... { _id: 10, cust_id: "Don Quis", ord_date: new Date("2020-03-23"), price: 25, items: [ { sku: "oranges", qty: 10, price: 2.5 } ], status: "A" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': 1,
+    '1': 2,
+    '2': 3,
+    '3': 4,
+    '4': 5,
+    '5': 6,
+    '6': 7,
+    '7': 8,
+    '8': 9,
+    '9': 10
+  }
+}
+
+
+
+mydb> db.orders.find()
+[
+  {
+    _id: 1,
+    cust_id: 'Ant O. Knee',
+    ord_date: ISODate("2020-03-01T00:00:00.000Z"),
+    price: 25,
+    items: [
+      { sku: 'oranges', qty: 5, price: 2.5 },
+      { sku: 'apples', qty: 5, price: 2.5 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 2,
+    cust_id: 'Ant O. Knee',
+    ord_date: ISODate("2020-03-08T00:00:00.000Z"),
+    price: 70,
+    items: [
+      { sku: 'oranges', qty: 8, price: 2.5 },
+      { sku: 'chocolates', qty: 5, price: 10 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 3,
+    cust_id: 'Busby Bee',
+    ord_date: ISODate("2020-03-08T00:00:00.000Z"),
+    price: 50,
+    items: [
+      { sku: 'oranges', qty: 10, price: 2.5 },
+      { sku: 'pears', qty: 10, price: 2.5 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 4,
+    cust_id: 'Busby Bee',
+    ord_date: ISODate("2020-03-18T00:00:00.000Z"),
+    price: 25,
+    items: [ { sku: 'oranges', qty: 10, price: 2.5 } ],
+    status: 'A'
+  },
+  {
+    _id: 5,
+    cust_id: 'Busby Bee',
+    ord_date: ISODate("2020-03-19T00:00:00.000Z"),
+    price: 50,
+    items: [ { sku: 'chocolates', qty: 5, price: 10 } ],
+    status: 'A'
+  },
+  {
+    _id: 6,
+    cust_id: 'Cam Elot',
+    ord_date: ISODate("2020-03-19T00:00:00.000Z"),
+    price: 35,
+    items: [
+      { sku: 'carrots', qty: 10, price: 1 },
+      { sku: 'apples', qty: 10, price: 2.5 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 7,
+    cust_id: 'Cam Elot',
+    ord_date: ISODate("2020-03-20T00:00:00.000Z"),
+    price: 25,
+    items: [ { sku: 'oranges', qty: 10, price: 2.5 } ],
+    status: 'A'
+  },
+  {
+    _id: 8,
+    cust_id: 'Don Quis',
+    ord_date: ISODate("2020-03-20T00:00:00.000Z"),
+    price: 75,
+    items: [
+      { sku: 'chocolates', qty: 5, price: 10 },
+      { sku: 'apples', qty: 10, price: 2.5 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 9,
+    cust_id: 'Don Quis',
+    ord_date: ISODate("2020-03-20T00:00:00.000Z"),
+    price: 55,
+    items: [
+      { sku: 'carrots', qty: 5, price: 1 },
+      { sku: 'apples', qty: 10, price: 2.5 },
+      { sku: 'oranges', qty: 10, price: 2.5 }
+    ],
+    status: 'A'
+  },
+  {
+    _id: 10,
+    cust_id: 'Don Quis',
+    ord_date: ISODate("2020-03-23T00:00:00.000Z"),
+    price: 25,
+    items: [ { sku: 'oranges', qty: 10, price: 2.5 } ],
+    status: 'A'
+  }
+]
+
+mydb> var mapFunction = function(){
+... emit(this.cust_id, this.price);
+... };
+
+mydb> var reduceFunction = function(key, values) {
+...    return Array.sum(values);
+... };
+
+mydb> db.orders.mapReduce(
+... mapFunction,
+... reduceFunction,
+... {
+... out: "total_price_per_customer"
+... }
+... );
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://docs.mongodb.com/manual/core/map-reduce for details.
+{ result: 'total_price_per_customer', ok: 1 }
+
+mydb> db.total_price_per_customer.find()
+[
+  { _id: 'Busby Bee', value: 125 },
+  { _id: 'Cam Elot', value: 60 },
+  { _id: 'Don Quis', value: 155 },
+  { _id: 'Ant O. Knee', value: 95 }
+]
+
+mydb> db.total_price_per_customer.find().sort( { _id: 1 } )
+[
+  { _id: 'Ant O. Knee', value: 95 },
+  { _id: 'Busby Bee', value: 125 },
+  { _id: 'Cam Elot', value: 60 },
+  { _id: 'Don Quis', value: 155 }
+]
+
+mydb> var mapFunction = function(){
+... for(var i=0; i<this.items.length; i++){
+... var item = this.items[i];
+... var key = {order_id: this._id, item_sku: item.sku};
+... var value = {total_quantity: item.qty, item_count: 1};
+... emit(key,value);
+... }
+... };
+
+mydb> var reduceFunction = function(key, values) {
+... var reducedValue = { total_quantity: 0, item_count: 0 };
+... for (var i = 0; i < values.length; i++) {
+... reducedValue.total_quantity += values[i].total_quantity;
+... reducedValue.item_count += values[i].item_count;
+... }
+... return reducedValue;
+... };
+
+mydb> var finalizeFunction = function(key, reducedValue) {
+... reducedValue.average_quantity_per_item = reducedValue.total_quantity /
+... reducedValue.item_count;
+... return reducedValue;
+... };
+
+
+mydb> db.orders.mapReduce(
+... mapFunction,
+... reduceFunction,
+... {
+... out:{inline :1},
+... query: { status: "A" },
+... finalize: finalizeFunction
+... }
+... );
+{
+  results: [
+    {
+      _id: { order_id: 2, item_sku: 'oranges' },
+      value: {
+        total_quantity: 8,
+        item_count: 1,
+        average_quantity_per_item: 8
+      }
+    },
+    {
+      _id: { order_id: 10, item_sku: 'oranges' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 1, item_sku: 'apples' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 3, item_sku: 'oranges' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 7, item_sku: 'oranges' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 3, item_sku: 'pears' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 2, item_sku: 'chocolates' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 6, item_sku: 'carrots' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 9, item_sku: 'oranges' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 4, item_sku: 'oranges' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 9, item_sku: 'carrots' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 1, item_sku: 'oranges' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 8, item_sku: 'apples' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 5, item_sku: 'chocolates' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 9, item_sku: 'apples' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    },
+    {
+      _id: { order_id: 8, item_sku: 'chocolates' },
+      value: {
+        total_quantity: 5,
+        item_count: 1,
+        average_quantity_per_item: 5
+      }
+    },
+    {
+      _id: { order_id: 6, item_sku: 'apples' },
+      value: {
+        total_quantity: 10,
+        item_count: 1,
+        average_quantity_per_item: 10
+      }
+    }
+  ],
+  ok: 1
+}

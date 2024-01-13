@@ -1,0 +1,97 @@
+Name: Megha
+Batch: Q
+Roll No: 28
+PRN No: F21113029
+Assignment No: A4
+
+Assignment Title:
+Unnamed PL/SQLcode block: Use of Control structure and Exception handling is 
+mandatory.
+Consider Tables:
+1. Borrower (Roll_no, Name, Date of Issue, Name of Book, Status)
+2. Fine (Roll_no, Date, Amt)
+ Accept Roll_no and Name of Book from user.
+ Check the number of days (from date of issue).
+ If days are between 15 to 30 then fine amount will be Rs 5per day.
+ If no.of days>30, per day fine will be Rs 50 per day & for days less than 30, Rs 5 per day.
+ After submitting the book, status will change from I to R.
+ If condition of fine is true, then details will be stored into fine table.
+ Also handles the exception by named exception handler or user define exception handler.
+*****************************************************************************************************************************
+
+
+CREATE TABLE  borrower(roll_no NUMBER , name VARCHAR2(25), dateofissue DATE,name_of_book VARCHAR2(25), status VARCHAR2(20));
+Table created.
+CREATE TABLE fine_1(roll_no NUMBER,date_of_return DATE,amt NUMBER);
+Table created.
+
+
+INSERT INTO borrower VALUES(1,'Megha',TO_DATE('11-08-2023','DD-MM-YYYY'),'dbms','i');
+1 row(s) inserted.
+INSERT INTO borrower VALUES(2,'Mugdha',TO_DATE('19-08-2023','DD-MM-YYYY'),'toc','i');
+1 row(s) inserted.
+INSERT INTO borrower VALUES(3,'Samruddi',TO_DATE('1-07-2023','DD-MM-YYYY'),'cns','i');
+1 row(s) inserted.
+INSERT INTO borrower VALUES(4,'Sania',TO_DATE('26-09-2022','DD-MM-YYYY'),'spos','i');
+1 row(s) inserted.
+INSERT INTO borrower VALUES(5,'Rashmi',TO_DATE('10-07-2022','DD-MM-YYYY'),'iot','i');
+1 row(s) inserted.
+
+select * from borrower;
+ROLL_NO	NAME	  DATEOFISSUE	 NAME_OF_BOOK	STATUS
+1	megha	  11-AUG-23	 dbms	          i
+2	mugdha	  19-AUG-23	 toc	          i
+3	samruddhi 01-JUL-23	 cns	          i
+4	sania	  26-SEP-22	 spos	          i
+5	rashmi	  10-JUL-22	 iot	          i
+
+
+DECLARE 
+	var_roll_no NUMBER;
+	var_name_of_book VARCHAR2(25);
+	no_of_days NUMBER;
+	return_date DATE := TO_DATE(SYSDATE,'DD-MM-YYYY');
+	temp NUMBER;
+	issue_date DATE;
+	calculated_fine NUMBER;
+BEGIN
+	var_roll_no := 1;
+	var_name_of_book := 'dbms';
+	--dbms_output.put_line(return_date);
+	SELECT to_date(borrower.dateofissue,'DD-MM-YYYY') INTO issue_date FROM borrower WHERE borrower.roll_no = var_roll_no AND borrower.name_of_book = var_name_of_book;
+	no_of_days := return_date-issue_date;
+	dbms_output.put_line('no. of days='||no_of_days);
+
+	IF no_of_days<15 THEN
+        dbms_output.put_line('no fine');
+   	END IF;
+        
+	IF (no_of_days >15 AND no_of_days <=30) THEN
+		calculated_fine := 5*(no_of_days-15);
+		
+	ELSIF (no_of_days>30 ) THEN
+		temp := no_of_days-30;
+		calculated_fine := 75 + temp*50;
+	END IF;
+	dbms_output.put_line('total fine='||calculated_fine);
+	INSERT INTO fine_1 VALUES(var_roll_no,return_date,calculated_fine);
+	UPDATE borrower SET status = 'r' WHERE borrower.roll_no = var_roll_no;
+	
+	
+END;
+/
+
+
+
+select * from borrower;
+ROLL_NO	NAME	  DATEOFISSUE	NAME_OF_BOOK	STATUS
+1	Megha	  11-AUG-23	dbms	          r
+2	Mugdha	  19-AUG-23	toc	          i
+3	Samruddi  01-JUL-23	cns	          i
+4	Sania	  26-SEP-22	spos	          i
+5	Rashmi	  10-JUL-22	iot	          i
+
+
+select * from fine_1;
+ROLL_NO	  DATE_OF_RETURN	AMT
+1	  26-SEP-23	        875

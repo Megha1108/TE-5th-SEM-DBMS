@@ -1,0 +1,142 @@
+NAME : MEGHA
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : A7
+ASSIGNMENT TITLE : Cursors: (All types: Implicit, Explicit, Cursor FOR Loop,
+Parameterized Cursor)
+
+create table old(roll_no int, name varchar(20))
+Table created.
+insert into old values(01, 'Rashmi')
+1 row(s) inserted.
+insert into old values(02, 'Megha')
+1 row(s) inserted.
+insert into old values(08, 'Mugdha')
+1 row(s) inserted.
+insert into old values(04, 'Shreya')
+1 row(s) inserted.
+insert into old values(09, 'Sania')
+1 row(s) inserted.
+insert into old values(10, 'Ragini')
+1 row(s) inserted.
+
+select * from old
+ROLL_NO	NAME
+4	Shreya
+8	Mugdha
+1	Rashmi
+2	Megha
+9	Sania
+10	Ragini
+
+6 rows selected.
+
+
+create table new(roll_no int, name varchar(20))
+Table created.
+insert into new values(05, 'Vivek')
+1 row(s) inserted.
+insert into new values(03, 'Kshipra')
+1 row(s) inserted.
+insert into new values(06, 'Mosin')
+1 row(s) inserted.
+insert into new values(07, 'Shreyash')
+1 row(s) inserted.
+
+select * from new
+
+ROLL_NO	NAME
+3	Kshipra
+5	Vivek
+7	Shreyash
+6	Mosin
+
+4 rows selected.
+
+
+
+DECLARE
+RollNo int;
+flag int(2);
+CURSOR c_merge(RollNo int) IS SELECT *FROM old WHERE roll_no NOT IN (SELECT
+roll_no FROM new WHERE new.roll_no=old.roll_no);
+
+var new%rowtype;
+BEGIN
+RollNo:=RollNo;
+RollNo:=01;
+flag:=0;
+OPEN c_merge(RollNo);
+LOOP
+FETCH c_merge INTO var;
+exit WHEN c_merge%notfound;
+IF (var.roll_no=RollNo) THEN INSERT INTO new VALUES(var.roll_no, var.name);
+flag:=1;
+END IF;
+END LOOP;
+IF (c_merge%rowcount=0 or flag=0) THEN
+dbms_output.put_line('Roll no already exists');
+ELSE
+dbms_output.put_line('Roll no added');
+END IF;
+CLOSE c_merge;
+END;
+/
+Statement processed.
+Roll no added
+
+
+select * from old
+
+ROLL_NO	NAME
+4	Shreya
+8	Mugdha
+1	Rashmi
+2	Megha
+9	Sania
+10	Ragini
+6 rows selected.
+
+
+select * from new
+
+ROLL_NO	NAME
+3	Kshipra
+5	Vivek
+7	Shreyash
+6	Mosin
+1	Rashmi
+5 rows selected.
+
+
+
+DECLARE
+RollNo int;
+flag int(2);
+CURSOR c_merge(RollNo int) IS SELECT *FROM old WHERE roll_no NOT IN (SELECT
+roll_no FROM new WHERE new.roll_no=old.roll_no);
+var new%rowtype;
+BEGIN
+RollNo:=RollNo;
+RollNo:=05;
+flag:=0;
+OPEN c_merge(RollNo);
+LOOP
+FETCH c_merge INTO var;
+
+exit WHEN c_merge%notfound;
+IF (var.roll_no=RollNo) THEN INSERT INTO new VALUES(var.roll_no, var.name);
+flag:=1;
+END IF;
+END LOOP;
+IF (c_merge%rowcount=0 or flag=0) THEN
+dbms_output.put_line('Roll no already exists');
+ELSE
+dbms_output.put_line('Roll no added');
+END IF;
+CLOSE c_merge;
+END;
+/
+Statement processed.
+Roll no already exists

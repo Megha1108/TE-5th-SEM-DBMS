@@ -1,0 +1,38 @@
+NAME : MEGHA
+BATCH : Q
+ROLL NO : 28
+PRN : F21113029
+ASSIGNMENT NO : A5
+
+ASSIGNMENT TITLE : Write a PL/SQL code block to calculate the area of a circle for a
+value of radius varying from 5 to 9. Store the radius and the corresponding values of
+calculated area in an empty table named areas, consisting of two columns, radius and
+area. Note: Instructor will frame the problem statement for writing PL/SQL block in line
+with above statement.
+
+SQL> CREATE TABLE areas (
+2 radius NUMBER,
+3 area NUMBER
+4 );
+Table created.
+
+SQL> DECLARE
+2 v_radius NUMBER;
+3 v_area NUMBER;
+4 BEGIN
+5 FOR v_radius IN 5..9 LOOP
+6 v_area := 3.14*v_radius*v_radius;
+7 INSERT INTO areas (radius, area) VALUES (v_radius, v_area);
+8 END LOOP;
+9 END;
+10 /
+PL/SQL procedure successfully completed.
+
+SQL> select *from areas;
+RADIUS AREA
+---------- ----------
+5 78.5
+6 113.04
+7 153.86
+8 200.96
+9 254.34
